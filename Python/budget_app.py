@@ -86,14 +86,19 @@ def format_chart(spend_arr):
         line += "{:>3}|".format(percent)
         for item in spend_arr:
             o = draw_o(percent, item[1])
-            line += " {o}".format(o=o)
+            line += " {o} ".format(o=o)
         percent -= 10
         line += '\n'
 
-    line += "    ----\n"
+    line += "    ----------\n"
 
-    for letter in spend_arr[0][0]:
-        line += "     " + letter + "\n"
+    for item in spend_arr:
+        for letter in item[0]:
+            line += "     " + letter + "\n"
+
+
+    # for letter in spend_arr[0][0]:
+    #     line += "     " + letter + "\n"
 
     print(line)
 

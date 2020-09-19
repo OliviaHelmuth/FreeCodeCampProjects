@@ -1,12 +1,13 @@
 import random
 
+
 class Hat:
     def __init__(self, **kwargs):
         self.contents = []
         for key, value in kwargs.items():
             for i in range(value):
                 self.contents.append(key)
-        
+
     def draw(self, num_of_balls):
         if num_of_balls > len(self.contents):
             return self.contents
@@ -18,16 +19,38 @@ class Hat:
         return self.removed_balls
 
 
-def experiment(hat, num_balls_drawn, num_experiments):
+def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
+    num_experiments = num_experiments * 3
     balls = hat.contents[:]
+    expected_balls_arr = []
     possibilities = []
+
+    for key, value in expected_balls.items():
+        for i in range(value):
+            expected_balls_arr.append(key)
 
     for i in range(num_experiments):
         drawn_balls = hat.draw(num_balls_drawn)
         possibilities.append(drawn_balls)
         hat.contents = balls[:]
 
+    expected_found = sum(expected_balls.values())
 
-hat1 = Hat(yellow=2, blue=2, green=2)
-# print(hat1.draw(4))
-experiment(hat1, 2, 2)
+    actually_found = 0
+
+    matches = 0
+
+    for experiments in possibilities:
+        actually_found = 0
+        for ball in expected_balls_arr:
+            if ball in experiments:
+                actually_found += 1
+                experiments.remove(ball)
+                print(experiments)
+        if actually_found == expected_found:
+            matches += 1
+
+    probability = matches / num_experiments
+
+    return probability
+
