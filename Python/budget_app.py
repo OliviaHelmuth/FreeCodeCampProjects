@@ -41,27 +41,6 @@ class Category:
         return self.current_balance >= amount
 
 
-food = Category("Food")
-food.deposit(1000, "initial deposit")
-food.withdraw(10.15, "groceries")
-food.withdraw(15.89, "restaurant and more food for dessert")
-# print(food.get_balance())
-clothing = Category("Clothing")
-food.transfer(50, clothing)
-clothing.withdraw(25.55)
-clothing.withdraw(100)
-auto = Category("Auto")
-auto.deposit(1000, "initial deposit")
-auto.withdraw(15)
-
-# print(food)
-# print(food.total_withdraw)
-# print(clothing)
-# print(clothing.total_withdraw)
-# print(auto)
-# print(auto.total_withdraw)
-
-
 def create_spend_chart(categories):
 
     total_withdraw = 0
@@ -80,7 +59,11 @@ def create_spend_chart(categories):
 def format_chart(spend_arr):
 
     percent = 100
-    line = ""
+    line = "Percentage spent by category\n"
+
+    cats = [item[0] for item in spend_arr]
+
+    biggest_size = len(max(cats, key=len))
 
     while percent >= 0:
         line += "{:>3}|".format(percent)
@@ -90,45 +73,22 @@ def format_chart(spend_arr):
         percent -= 10
         line += '\n'
 
-    line += "    ----------\n"
+    line += "    " + "-"*(3 * len(cats)) + "-\n"
 
-    for item in spend_arr:
-        for letter in item[0]:
-            line += "     " + letter + "\n"
+    for i in range(biggest_size):
+        line += "   "
+        for letter in spend_arr:
+            try:
+                line += "  " + letter[0][i]
+            except:
+                line += "   "
 
+        line += "\n"
 
-    # for letter in spend_arr[0][0]:
-    #     line += "     " + letter + "\n"
-
-    print(line)
+    return line
 
 
 def draw_o(percent, spend_arr):
-    if percent < spend_arr:
+    if percent <= spend_arr:
         return "o"
-    return ""
-    
-
-create_spend_chart([food, clothing, auto])
-
-# Percentage spent by category
-# 100|          
-#  90|          
-#  80|          
-#  70|          
-#  60| o        
-#  50| o        
-#  40| o        
-#  30| o        
-#  20| o  o     
-#  10| o  o  o  
-#   0| o  o  o  
-#     ----------
-#      F  C  A  
-#      o  l  u  
-#      o  o  t  
-#      d  t  o  
-#         h     
-#         i     
-#         n     
-#         g     
+    return " "

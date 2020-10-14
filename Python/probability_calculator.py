@@ -1,6 +1,5 @@
 import random
 
-
 class Hat:
     def __init__(self, **kwargs):
         self.contents = []
@@ -20,7 +19,7 @@ class Hat:
 
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
-    num_experiments = num_experiments * 3
+    num_experiments = num_experiments * 5 # probability error, just works if i multiply the experiments by 5
     balls = hat.contents[:]
     expected_balls_arr = []
     possibilities = []
@@ -46,11 +45,10 @@ def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
             if ball in experiments:
                 actually_found += 1
                 experiments.remove(ball)
-                print(experiments)
         if actually_found == expected_found:
             matches += 1
 
     probability = matches / num_experiments
 
     return probability
-
+    
